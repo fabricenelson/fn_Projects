@@ -84,6 +84,13 @@ $shortcut = $WScriptShell.CreateShortcut("$env:USERPROFILE\Desktop\Nixxis v3.lnk
 $shortcut.TargetPath = "C:\Nixxis\clientsoftwareV3\NixxisClientDesktop.exe"
 $shortcut.Save()
 
+# Add registry key and value
+$registryPath = "HKCU:\SOFTWARE\Nixxis\NixxisClient\RecentServices"
+if (-not (Test-Path -Path $registryPath)) { 
+    New-Item -Path $registryPath -Force
+}
+Set-ItemProperty -Path $registryPath -Name "1" -Value "http://soip.cloud.soip.info:8088"
+
 # Cleanup installers
 $installers = @($webview2Installer, $dotNetInstaller, $vcRedistInstaller)
 foreach ($installer in $installers) {
